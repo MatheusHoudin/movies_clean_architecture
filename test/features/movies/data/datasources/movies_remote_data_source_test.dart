@@ -1,13 +1,11 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:movies_clean_architecture/core/error/exceptions.dart';
 import 'package:movies_clean_architecture/features/movies/data/datasources/movies_remote_data_source.dart';
 import 'package:movies_clean_architecture/features/movies/data/models/movie_model.dart';
-
+import 'package:matcher/matcher.dart';
 import '../../../../fixtures/fixture_reader.dart';
 
 class MockHttpClient extends Mock implements http.Client {}
@@ -53,7 +51,7 @@ void main() {
         setUpMockHttpClientFailure404();
         final call = moviesRemoteDataSourceImpl.getMoviesWithPage;
 
-        expect(() => call(page),throwsA(const TypeMatcher<ServerException>()));
+        expect(() => call(page),throwsA(TypeMatcher<ServerException>()));
       }
     );
 

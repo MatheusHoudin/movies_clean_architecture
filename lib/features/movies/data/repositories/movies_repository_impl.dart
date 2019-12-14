@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
+import 'package:movies_clean_architecture/core/error/exceptions.dart';
 import 'package:movies_clean_architecture/core/error/failures.dart';
 import 'package:movies_clean_architecture/core/network/network_info.dart';
 import 'package:movies_clean_architecture/features/movies/data/datasources/movies_local_data_source.dart';
@@ -19,9 +20,22 @@ class MoviesRepositoryImpl extends MoviesRepository {
   });
 
   @override
-  Future<Either<Failure, Movie>> getMoviesWithPage(int page) {
-    networkInfo.isConnected;
-    return null;
+  Future<Either<Failure, List<Movie>>> getMoviesWithPage(int page) async {
+    final isConnected = await networkInfo.isConnected;
+    try {
+      if(isConnected){
+        final remoteMovies = await moviesRemoteDataSource.getMoviesWithPage(page);
+        moviesLocalDataSource.cacheMovies(remoteMovies);
+        return Right(remoteMovies);
+      }else{
+        final localMovies = await moviesLocalDataSource.getLastMovies();
+        return Right(localMovies);
+      }
+    } on ServerException {
+      return Left(ServerFailure());
+    } on CacheException {
+      return Left(CacheFailure());
+    }
   }
 
 }
