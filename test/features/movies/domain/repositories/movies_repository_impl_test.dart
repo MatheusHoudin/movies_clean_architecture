@@ -25,7 +25,7 @@ main() {
   final tMovies = [
       MovieModel.fromJson(json.decode(fixture('movie.json'))),
       MovieModel.fromJson(json.decode(fixture('movie2.json')))
-    ];
+  ];
   int page = 1;
 
   setUp((){
