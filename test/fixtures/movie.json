@@ -1,0 +1,10 @@
+{
+    "id": 1,
+    "adult": true,
+    "overview": "overview",
+    "poster_path": "poster.png",
+    "release_date": "2019-10-10",
+    "title": "title",
+    "vote_average": 9.0,
+    "genre_ids": [1,2,3]
+}
