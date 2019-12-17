@@ -10,17 +10,13 @@ import 'package:movies_clean_architecture/features/movies/presentation/bloc/bloc
 
 class MockGetMoviesWithPageUsecase extends Mock implements GetMoviesWithPageUsecase {}
 
-class MockInputConverter extends Mock implements InputConverter {}
-
 void main() {
   MoviesBloc moviesBloc;
   MockGetMoviesWithPageUsecase getMoviesWithPageUsecase;
-  MockInputConverter inputConverter;
 
   setUp(() {
-    inputConverter = MockInputConverter();
     getMoviesWithPageUsecase = MockGetMoviesWithPageUsecase();
-    moviesBloc = MoviesBloc(getMoviesWithPageUsecase: getMoviesWithPageUsecase,inputConverter: inputConverter);
+    moviesBloc = MoviesBloc(getMoviesWithPageUsecase: getMoviesWithPageUsecase);
   });
 
   test(
@@ -133,19 +129,28 @@ void main() {
         }
       );
 
-      /*test(
+      test(
         'should increment the page number after a successful call',
         () async {
           when(getMoviesWithPageUsecase(any))
           .thenAnswer((_) async => Right(moviesFirstCall));
-
-          expectLater(moviesBloc.nextPage, moviesBloc.nextPage + 1);
           
           moviesBloc.add(GetMoviesWithPageEvent());
-      
-          await untilCalled(Loaded()); 
+          await untilCalled(moviesBloc.incrementPage());
+          expect(moviesBloc.nextPage,2);
         }
-      );*/
+      );
+
+      test(
+        'should not increment the page number after an unsuccessful call',
+        () async {
+          when(getMoviesWithPageUsecase(any))
+          .thenAnswer((_) async => Left(ServerFailure()));
+          
+          moviesBloc.add(GetMoviesWithPageEvent());
+          expect(moviesBloc.nextPage,1);
+        }
+      );
     }
   );
 }

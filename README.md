@@ -1,6 +1,6 @@
 # movies_clean_architecture
 
-A flutter application using the TMDb database and clean architecture
+A new Flutter application.
 
 ## Getting Started
 
