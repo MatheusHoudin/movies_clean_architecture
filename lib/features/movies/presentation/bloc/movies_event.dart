@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:movies_clean_architecture/features/movies/presentation/bloc/bloc/bloc.dart';
+import 'package:movies_clean_architecture/features/movies/presentation/bloc/bloc.dart';
 
 abstract class MoviesEvent extends Equatable {
   const MoviesEvent();

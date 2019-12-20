@@ -1,6 +1,10 @@
 import 'package:meta/meta.dart';
 import 'package:movies_clean_architecture/features/movies/domain/entities/movie_entity.dart';
+import 'package:hive/hive.dart';
 
+part 'movie_model.g.dart';
+
+@HiveType()
 class MovieModel extends Movie {
   MovieModel({
     @required int id,
@@ -16,9 +20,11 @@ class MovieModel extends Movie {
   genreIds: genreIds);
 
   factory MovieModel.fromJson(Map<String,dynamic> json){
+    print('JSON');
+    print(json);
     return MovieModel(
       id: json['id'],
-      voteAverage: json['vote_average'],
+      voteAverage: json['vote_average'].toDouble(),
       adult: json['adult'],
       title: json['title'],
       overview: json['overview'],

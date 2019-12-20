@@ -19,7 +19,9 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   Future<List<MovieModel>> getMoviesWithPage(int page) async {
     final response = await client.get('${baseUrl}discover/movie?api_key=$apiKey&sort_by=popularity.desc&page=$page');
     if(response.statusCode == 200){
-      return (json.decode(response.body) as List).map((i) => MovieModel.fromJson(i)).toList();
+      Map<String,dynamic> result = json.decode(response.body);
+
+      return (result['results'] as List).map((i) => MovieModel.fromJson(i)).toList();
     }else{
       throw ServerException();
     }

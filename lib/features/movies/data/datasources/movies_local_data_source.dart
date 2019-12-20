@@ -13,7 +13,7 @@ class MoviesLocalDataSourceImpl implements MoviesLocalDataSource {
   final Box moviesBox;
 
   MoviesLocalDataSourceImpl({
-    this.moviesBox
+    @required this.moviesBox
   });
 
   @override

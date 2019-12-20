@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:hive/hive.dart';
-
+part 'movie_entity.g.dart';
 @HiveType()
 class Movie extends Equatable{
   @HiveField(0)

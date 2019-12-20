@@ -8,19 +8,16 @@ import 'package:movies_clean_architecture/features/movies/data/datasources/movie
 import 'package:movies_clean_architecture/features/movies/data/repositories/movies_repository_impl.dart';
 import 'package:movies_clean_architecture/features/movies/domain/repositories/movies_repository.dart';
 import 'package:movies_clean_architecture/features/movies/domain/usecases/get_movies_with_page_usecase.dart';
-import 'package:movies_clean_architecture/features/movies/presentation/bloc/bloc/bloc.dart';
+import 'package:movies_clean_architecture/features/movies/presentation/bloc/bloc.dart';
 import 'package:http/http.dart' as http;
+import 'features/movies/domain/entities/movie_entity.dart';
 final sl = GetIt.instance;
 
-void init() async {
+Future<void> init() async {
 
-  sl.registerFactory(
-    () => MoviesBloc(
-      getMoviesWithPageUsecase: sl()
-    )
-  );
+  sl.registerFactory(() => MoviesBloc(getMoviesWithPageUsecase: sl()));
 
-  sl.registerLazySingleton(() => GetMoviesWithPageUsecase(sl()));
+  sl.registerLazySingleton<GetMoviesWithPageUsecase>(() => GetMoviesWithPageUsecase(sl()));
 
   sl.registerLazySingleton<MoviesRepository>(
     () => MoviesRepositoryImpl(
@@ -34,7 +31,7 @@ void init() async {
     () => MoviesRemoteDataSourceImpl(client: sl())
   );
   sl.registerLazySingleton<MoviesLocalDataSource>(
-    () => MoviesLocalDataSourceImpl(moviesBox: sl('moviesBox'))
+    () => MoviesLocalDataSourceImpl(moviesBox: sl())
   );
 
   sl.registerLazySingleton<NetworkInfo>(
@@ -44,8 +41,7 @@ void init() async {
   final appDocumentDirectory = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
   final moviesBox = await Hive.openBox('movies');
-
-  sl.registerLazySingleton(() => http.Client());
-  sl.registerLazySingleton(() => DataConnectionChecker());
-  sl.registerLazySingleton(() => moviesBox,instanceName: 'moviesBox');
+  sl.registerLazySingleton<http.Client>(() => http.Client());
+  sl.registerLazySingleton<DataConnectionChecker>(() => DataConnectionChecker());
+  sl.registerLazySingleton(() => moviesBox);
 }

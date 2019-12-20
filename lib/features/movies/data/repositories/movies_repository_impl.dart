@@ -25,7 +25,9 @@ class MoviesRepositoryImpl extends MoviesRepository {
     try {
       if(isConnected){
         final remoteMovies = await moviesRemoteDataSource.getMoviesWithPage(page);
-        moviesLocalDataSource.cacheMovies(remoteMovies);
+        print('RESULTS');
+        print(remoteMovies);
+        //await moviesLocalDataSource.cacheMovies(remoteMovies);
         return Right(remoteMovies);
       }else{
         final localMovies = await moviesLocalDataSource.getLastMovies();

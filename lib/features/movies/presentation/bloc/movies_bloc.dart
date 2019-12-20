@@ -1,10 +1,10 @@
-import 'dart:async';
+import'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:movies_clean_architecture/core/constants/texts.dart';
 import 'package:movies_clean_architecture/core/error/failures.dart';
 import 'package:movies_clean_architecture/features/movies/domain/entities/movie_entity.dart';
 import 'package:movies_clean_architecture/features/movies/domain/usecases/get_movies_with_page_usecase.dart';
-import './bloc.dart';
+import 'package:movies_clean_architecture/features/movies/presentation/bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
@@ -13,7 +13,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   final List<Movie> infiniteMoviesList = List();
 
   MoviesBloc({
-    @required getMoviesWithPageUsecase,
+    @required GetMoviesWithPageUsecase getMoviesWithPageUsecase,
   }) : assert(getMoviesWithPageUsecase != null),
        _getMoviesWithPageUseCase = getMoviesWithPageUsecase;
 
@@ -26,18 +26,21 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     MoviesEvent event,
   ) async* {
     if( event is GetMoviesWithPageEvent ) {
+      print("GetMoviesWithPageEvent");
       yield Loading();
       final failureOrMovies = await _getMoviesWithPageUseCase(Params(page: this.nextPage));
-
-      yield failureOrMovies.fold(
-        (failure) {
+      print('AFTER');
+      yield* failureOrMovies.fold(
+        (failure) async *{
           String message = chooseErrorMessage(failure);
-          return Error(message: message);
+          print('ERROR');
+          yield Error(message: message);
         },
-        (moviesList) {
+        (moviesList) async* {
           incrementPage();
           infiniteMoviesList.addAll(moviesList);
-          return Loaded(movies: infiniteMoviesList);
+          print('MOVIES');
+          yield Loaded(movies: infiniteMoviesList);
         }
       );
     }
