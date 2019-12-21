@@ -29,10 +29,9 @@ void main() {
     test(
       'should return the last cached movies from the local database',
       () async {
-        when(boxMock.get(any)).thenReturn(movies);
+        when(boxMock.get(any)).thenReturn('{"movies": ${movies.toString()}}');
 
         final result = await dataSource.getLastMovies();
-
         verify(boxMock.get(CACHED_MOVIES));
         expect(result,movies);
       }
@@ -60,7 +59,7 @@ void main() {
       () async {
         dataSource.cacheMovies(movies);
 
-        verify(boxMock.addAll(movies));
+        verify(boxMock.put(CACHED_MOVIES,'{"movies": ${movies.toString()}}'));
       }
     );
   });

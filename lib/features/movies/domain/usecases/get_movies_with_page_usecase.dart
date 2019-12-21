@@ -12,9 +12,7 @@ class GetMoviesWithPageUsecase extends UseCase<List<Movie>,Params> {
 
   @override
   Future<Either<Failure, List<Movie>>> call(Params params) async {
-    print('CALL');
     var result = await moviesRepository.getMoviesWithPage(params.page);
-    print('Result: $result');
     return result;
   }
 

@@ -20,8 +20,6 @@ class MovieModel extends Movie {
   genreIds: genreIds);
 
   factory MovieModel.fromJson(Map<String,dynamic> json){
-    print('JSON');
-    print(json);
     return MovieModel(
       id: json['id'],
       voteAverage: json['vote_average'].toDouble(),
@@ -45,5 +43,9 @@ class MovieModel extends Movie {
       "poster_path": this.posterPath,
       "genre_ids": this.genreIds
     };
+  }
+
+  String toString(){
+    return '{"id": ${this.id},"vote_average": ${this.voteAverage},"adult": ${this.adult},"title": "${this.title}","overview": "${this.overview.replaceAll('\"', "").replaceAll('"/', "")}","release_date": "${this.releaseDate}","poster_path": "${this.posterPath}","genre_ids": ${this.genreIds}}';
   }
 }

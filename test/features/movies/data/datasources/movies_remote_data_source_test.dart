@@ -21,7 +21,7 @@ void main() {
 
   void setUpMockHttpClientSuccess200(){
     when(mockHttpClient.get(any))
-    .thenAnswer((_) async => http.Response([fixture('movie.json'),fixture('movie2.json')].toString(),200));
+    .thenAnswer((_) async => http.Response('{"results": [${fixture('movie.json')},${fixture('movie2.json')}]}',200));
   }
 
   void setUpMockHttpClientFailure404(){
@@ -40,7 +40,9 @@ void main() {
       'should return a List of MovieModel when the response code is 200 (success)',
       () async {
         setUpMockHttpClientSuccess200();
+        print('{results: [${fixture('movie.json')},${fixture('movie2.json')}]}');
         final result = await moviesRemoteDataSourceImpl.getMoviesWithPage(page);
+        print('result');
         expect(result, equals(tMovies));
       }
     );

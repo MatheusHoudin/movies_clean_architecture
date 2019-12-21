@@ -33,11 +33,16 @@ void main() {
         Movie(id: 2,adult: false,genreIds: [1,4],overview: 'overview1',posterPath: 'posterPath2',releaseDate: 'date3',title: 'title3',voteAverage: 9)
       ];
 
+      final moviesSecondCall = [
+        Movie(id: 1,adult: true,genreIds: [1,2],overview: 'overview22',posterPath: 'posterPath',releaseDate: 'date',title: 'title',voteAverage: 10),
+        Movie(id: 2,adult: false,genreIds: [1,4],overview: 'overview22',posterPath: 'posterPath2',releaseDate: 'date3',title: 'title3',voteAverage: 9)
+      ];
+
       final finalMoviesList = [
         Movie(id: 1,adult: true,genreIds: [1,2],overview: 'overview',posterPath: 'posterPath',releaseDate: 'date',title: 'title',voteAverage: 10),
         Movie(id: 2,adult: false,genreIds: [1,4],overview: 'overview1',posterPath: 'posterPath2',releaseDate: 'date3',title: 'title3',voteAverage: 9),
-        Movie(id: 1,adult: true,genreIds: [1,2],overview: 'overview',posterPath: 'posterPath',releaseDate: 'date',title: 'title',voteAverage: 10),
-        Movie(id: 2,adult: false,genreIds: [1,4],overview: 'overview1',posterPath: 'posterPath2',releaseDate: 'date3',title: 'title3',voteAverage: 9)
+        Movie(id: 1,adult: true,genreIds: [1,2],overview: 'overview22',posterPath: 'posterPath',releaseDate: 'date',title: 'title',voteAverage: 10),
+        Movie(id: 2,adult: false,genreIds: [1,4],overview: 'overview22',posterPath: 'posterPath2',releaseDate: 'date3',title: 'title3',voteAverage: 9)
       ];
       
       test(
@@ -114,6 +119,36 @@ void main() {
             Loaded(movies: moviesFirstCall),
             Loading(),
             Loaded(movies: finalMoviesList),
+          ];
+
+          expectLater(moviesBloc.cast(), emitsInOrder(expected));
+        
+          moviesBloc.add(GetMoviesWithPageEvent());
+          await untilCalled(getMoviesWithPageUsecase(any));
+          verify(getMoviesWithPageUsecase(Params(page: moviesBloc.nextPage)));
+          clearInteractions(getMoviesWithPageUsecase);
+
+          when(getMoviesWithPageUsecase(any))
+          .thenAnswer((_) async =>  Right(moviesSecondCall));
+
+          moviesBloc.add(GetMoviesWithPageEvent());
+          await untilCalled(getMoviesWithPageUsecase(any));
+          verify(getMoviesWithPageUsecase(Params(page: moviesBloc.nextPage)));
+        }
+      );
+
+      test(
+        'should not concatenate the previous movies list with the new on when getting the same previous data',
+        () async {
+          when(getMoviesWithPageUsecase(any))
+          .thenAnswer((_) async => Right(moviesFirstCall));
+
+          final expected = [
+            Empty(),
+            Loading(),
+            Loaded(movies: moviesFirstCall),
+            Loading(),
+            Loaded(movies: moviesFirstCall),
           ];
 
           expectLater(moviesBloc.cast(), emitsInOrder(expected));
