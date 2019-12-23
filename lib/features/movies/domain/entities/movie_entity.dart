@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:hive/hive.dart';
+import 'package:flutter/foundation.dart';
 part 'movie_entity.g.dart';
+
 @HiveType()
 class Movie extends Equatable{
   @HiveField(0)
@@ -43,4 +45,9 @@ class Movie extends Equatable{
     posterPath,
     genreIds
   ];
+
+  @override
+  bool operator ==(dynamic other){
+    return other.id == this.id;
+  }
 }

@@ -37,8 +37,8 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         (moviesList) async* {
           incrementPage();
           if(!listEquals(moviesList, infiniteMoviesList)){
-            print('EQUALS');
             infiniteMoviesList.addAll(moviesList);
+            
           }
           yield Loaded(movies: moviesList);
         }
