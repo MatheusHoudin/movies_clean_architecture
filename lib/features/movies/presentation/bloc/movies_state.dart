@@ -10,6 +10,15 @@ class Loading extends MoviesState {
   List<Object> get props => [];
 }
 
+class LoadingMore extends MoviesState {
+  final List<Movie> previousMovies;
+
+  LoadingMore({this.previousMovies});
+
+  @override
+  List<Object> get props => [previousMovies];
+}
+
 class Empty extends MoviesState {
   @override
   List<Object> get props => [];

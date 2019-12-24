@@ -27,7 +27,11 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     MoviesEvent event,
   ) async* {
     if( event is GetMoviesWithPageEvent ) {
-      yield Loading();
+      if(infiniteMoviesList.length == 0){
+        yield Loading();
+      }else{
+        yield LoadingMore(previousMovies: infiniteMoviesList);
+      }
       final failureOrMovies = await _getMoviesWithPageUseCase(Params(page: this.nextPage));
       yield* failureOrMovies.fold(
         (failure) async *{
@@ -36,11 +40,8 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
         },
         (moviesList) async* {
           incrementPage();
-          if(!listEquals(moviesList, infiniteMoviesList)){
-            infiniteMoviesList.addAll(moviesList);
-            
-          }
-          yield Loaded(movies: moviesList);
+          infiniteMoviesList.addAll(moviesList);
+          yield Loaded(movies: infiniteMoviesList);
         }
       );
     }

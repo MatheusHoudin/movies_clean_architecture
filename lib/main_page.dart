@@ -3,6 +3,7 @@ import 'features/movies/presentation/pages/movies_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/movies/presentation/bloc/bloc.dart';
 import 'injection_container.dart';
+import 'package:movies_clean_architecture/core/constants/colors.dart';
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
@@ -17,7 +18,9 @@ class _MainPageState extends State<MainPage> {
     return BlocProvider(
       builder: (_) => sl<MoviesBloc>(),
       child: Scaffold(
+        backgroundColor: Colors.grey,
         appBar: AppBar(
+          backgroundColor: backgroundColor,
           title: Text(
             'Movies Searcher'
           ),
@@ -38,6 +41,7 @@ class _MainPageState extends State<MainPage> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: selectedIndex,
+          backgroundColor: backgroundColor,
           onTap: (index){
             setState(() {
               selectedIndex = index;
@@ -45,17 +49,26 @@ class _MainPageState extends State<MainPage> {
             });
           },
           items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.movie),
-              title: Text('Movies')
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.tv),
-              title: Text('TV Shows')
-            )
+            BottomNavigationItem('Movies', Icons.movie),
+            BottomNavigationItem('TV Shows', Icons.tv),
           ],
         ),
       ),
+    );
+  }
+
+  BottomNavigationBarItem BottomNavigationItem(String title, IconData icon) {
+    return BottomNavigationBarItem(
+      icon: Icon(
+        icon,
+        color: brightGreen,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      )
     );
   }
 }

@@ -117,7 +117,7 @@ void main() {
             Empty(),
             Loading(),
             Loaded(movies: moviesFirstCall),
-            Loading(),
+            LoadingMore(previousMovies: moviesFirstCall),
             Loaded(movies: finalMoviesList),
           ];
 
@@ -130,33 +130,6 @@ void main() {
 
           when(getMoviesWithPageUsecase(any))
           .thenAnswer((_) async =>  Right(moviesSecondCall));
-
-          moviesBloc.add(GetMoviesWithPageEvent());
-          await untilCalled(getMoviesWithPageUsecase(any));
-          verify(getMoviesWithPageUsecase(Params(page: moviesBloc.nextPage)));
-        }
-      );
-
-      test(
-        'should not concatenate the previous movies list with the new on when getting the same previous data',
-        () async {
-          when(getMoviesWithPageUsecase(any))
-          .thenAnswer((_) async => Right(moviesFirstCall));
-
-          final expected = [
-            Empty(),
-            Loading(),
-            Loaded(movies: moviesFirstCall),
-            Loading(),
-            Loaded(movies: moviesFirstCall),
-          ];
-
-          expectLater(moviesBloc.cast(), emitsInOrder(expected));
-        
-          moviesBloc.add(GetMoviesWithPageEvent());
-          await untilCalled(getMoviesWithPageUsecase(any));
-          verify(getMoviesWithPageUsecase(Params(page: moviesBloc.nextPage)));
-          clearInteractions(getMoviesWithPageUsecase);
 
           moviesBloc.add(GetMoviesWithPageEvent());
           await untilCalled(getMoviesWithPageUsecase(any));
@@ -186,6 +159,7 @@ void main() {
           expect(moviesBloc.nextPage,1);
         }
       );
+
     }
   );
 }
