@@ -4,6 +4,7 @@ import 'package:movies_clean_architecture/features/movies/domain/entities/movie_
 import 'package:movies_clean_architecture/features/movies/presentation/bloc/bloc.dart';
 import 'package:movies_clean_architecture/features/movies/presentation/widgets/movie_item.dart';
 import 'package:movies_clean_architecture/core/constants/colors.dart';
+import 'package:movies_clean_architecture/features/movies/presentation/widgets/movie_image_item.dart';
 import 'package:movies_clean_architecture/core/constants/texts.dart';
 class MoviesPage extends StatefulWidget {
   @override
@@ -136,12 +137,7 @@ class _MoviesPageState extends State<MoviesPage> {
     return Container(
       height: MediaQuery.of(context).size.height * 0.3,
       width: MediaQuery.of(context).size.width * 0.32,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage('$moviePosterUrl${movie.posterPath}'),
-          fit: BoxFit.fill
-        )
-      ),
+      child: MovieImageItem(movie: movie,),
     );
   }
 }
