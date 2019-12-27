@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:hive/hive.dart';
-import 'package:flutter/foundation.dart';
 part 'movie_entity.g.dart';
 
 @HiveType()

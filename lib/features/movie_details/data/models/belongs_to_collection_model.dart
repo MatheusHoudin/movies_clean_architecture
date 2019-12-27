@@ -1,4 +1,4 @@
-import 'package:movies_clean_architecture/features/movie_details/domain/entities/belongs_to_collection.dart';
+import 'package:movies_clean_architecture/features/movie_details/domain/entities/belongs_to_collection_entity.dart';
 import 'package:meta/meta.dart';
 
 class BelongsToCollectionModel extends BelongsToCollection{
@@ -16,5 +16,18 @@ class BelongsToCollectionModel extends BelongsToCollection{
       posterPath: json['poster_path'],
       backdropPath: json['backdrop_path']
     );
+  }
+
+  Map<String,dynamic> toJson() {
+    return {
+      "id": this.id,
+      "name": this.name,
+      "poster_path": this.posterPath,
+      "backdrop_path": this.backdropPath
+    };
+  }
+
+  String toString() {
+    return '{id: $id,name: $name,poster_path: $posterPath,backdrop_path: $backdropPath}';
   }
 }

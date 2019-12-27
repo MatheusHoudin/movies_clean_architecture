@@ -9,7 +9,7 @@ import '../../../../fixtures/fixture_reader.dart';
 void main(){
   final tMovieModel = MovieModel(
     id: 1,
-    adult: true,
+    adult: false,
     overview: "overview",
     posterPath: 'poster.png',
     releaseDate: '2019-10-10',
@@ -29,7 +29,8 @@ void main(){
     () async {
       final Map<String,dynamic> jsonMap = json.decode(fixture('movie.json'));
       final result = MovieModel.fromJson(jsonMap);
-
+      print(result);
+      print(tMovieModel);
       expect(result,tMovieModel);
     }
   );

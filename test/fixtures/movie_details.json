@@ -1,0 +1,41 @@
+{
+  "id": 1,
+  "adult": true,
+  "backdrop_path": "backdrop",
+  "homepage": "homepage",
+  "title": "title",
+  "overview": "overview",
+  "poster_path": "poster",
+  "release_date": "date",
+  "vote_average": 10.0,
+  "belongs_to_collection": {
+    "id": 1,
+    "name": "Collection",
+    "poster_path": "/ndsojHB9Ob9BE3Bjnd.jpg",
+    "backdrop_path": "/jbBihBbh9obno9bn.jpg"
+  },
+  "genres": [
+    {
+      "id": 1,
+      "name": "action"
+    },
+    {
+      "id": 2,
+      "name": "romance"
+    }
+  ],
+  "production_companies": [
+    {
+      "id": 1,
+      "name": "company",
+      "logo_path": "logo",
+      "origin_country": "country"
+    },
+    {
+      "id": 2,
+      "name": "company2",
+      "logo_path": "logo2",
+      "origin_country": "country2"
+    }
+  ]
+}
