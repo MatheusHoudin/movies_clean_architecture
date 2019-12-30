@@ -42,7 +42,7 @@ void main(){
 
       final expectedMap = {
         "id": 1,
-        "adult": true,
+        "adult": false,
         "overview": "overview",
         "poster_path": "poster.png",
         "release_date": "2019-10-10",

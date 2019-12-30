@@ -40,9 +40,7 @@ void main() {
       'should return a List of MovieModel when the response code is 200 (success)',
       () async {
         setUpMockHttpClientSuccess200();
-        print('{results: [${fixture('movie.json')},${fixture('movie2.json')}]}');
         final result = await moviesRemoteDataSourceImpl.getMoviesWithPage(page);
-        print('result');
         expect(result, equals(tMovies));
       }
     );
