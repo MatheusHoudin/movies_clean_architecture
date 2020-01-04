@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'features/movies/presentation/pages/movies_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'features/movies/presentation/bloc/bloc.dart';
+import 'features/movies/presentation/bloc/get_movies_bloc/bloc.dart';
+import 'features/movies/presentation/bloc/change_movies_view_bloc/bloc.dart';
 import 'injection_container.dart';
 import 'package:movies_clean_architecture/core/constants/colors.dart';
 class MainPage extends StatefulWidget {
@@ -33,7 +34,10 @@ class _MainPageState extends State<MainPage> {
             });
           },
           children: <Widget>[
-            MoviesPage(),
+            BlocProvider(
+              builder: (_) => sl<ChangeMoviesViewBloc>(),
+              child: MoviesPage(),
+            ),
             Center(
               child: Text('another page'),
             )

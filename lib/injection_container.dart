@@ -8,14 +8,17 @@ import 'package:movies_clean_architecture/features/movies/data/datasources/movie
 import 'package:movies_clean_architecture/features/movies/data/repositories/movies_repository_impl.dart';
 import 'package:movies_clean_architecture/features/movies/domain/repositories/movies_repository.dart';
 import 'package:movies_clean_architecture/features/movies/domain/usecases/get_movies_with_page_usecase.dart';
-import 'package:movies_clean_architecture/features/movies/presentation/bloc/bloc.dart';
+import 'package:movies_clean_architecture/features/movies/presentation/bloc/get_movies_bloc/bloc.dart';
+import 'package:movies_clean_architecture/features/movies/presentation/bloc/change_movies_view_bloc/bloc.dart';
+import 'features/movie_details/presentation/bloc/movie_details_bloc.dart';
 import 'package:http/http.dart' as http;
-import 'features/movies/domain/entities/movie_entity.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
 
   sl.registerFactory(() => MoviesBloc(getMoviesWithPageUsecase: sl()));
+  sl.registerFactory(() => ChangeMoviesViewBloc());
+  sl.registerFactory(() => MovieDetailsBloc());
 
   sl.registerLazySingleton<GetMoviesWithPageUsecase>(() => GetMoviesWithPageUsecase(sl()));
 

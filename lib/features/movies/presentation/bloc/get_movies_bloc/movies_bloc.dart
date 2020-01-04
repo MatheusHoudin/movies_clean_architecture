@@ -5,9 +5,9 @@ import 'package:movies_clean_architecture/core/constants/texts.dart';
 import 'package:movies_clean_architecture/core/error/failures.dart';
 import 'package:movies_clean_architecture/features/movies/domain/entities/movie_entity.dart';
 import 'package:movies_clean_architecture/features/movies/domain/usecases/get_movies_with_page_usecase.dart';
-import 'package:movies_clean_architecture/features/movies/presentation/bloc/bloc.dart';
+import 'package:movies_clean_architecture/features/movies/presentation/bloc/get_movies_bloc/bloc.dart';
 import 'package:meta/meta.dart';
-
+import 'package:movies_clean_architecture/core/error/error_message_chooser.dart';
 class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   final GetMoviesWithPageUsecase _getMoviesWithPageUseCase;
   int nextPage = 1;
@@ -34,7 +34,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
       }
       final failureOrMovies = await _getMoviesWithPageUseCase(Params(page: this.nextPage));
       yield* failureOrMovies.fold(
-        (failure) async *{
+        (failure) async*{
           String message = chooseErrorMessage(failure);
           yield Error(message: message);
         },
@@ -51,14 +51,4 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     nextPage++;
   }
 
-  String chooseErrorMessage(Failure failure){
-    switch(failure.runtimeType) {
-      case ServerFailure:
-        return SERVER_FAILURE;
-      case CacheFailure:
-        return CACHE_FAILURE;
-      default:
-        return 'An unexpected error has ocurrer';  
-    }
-  }
 }

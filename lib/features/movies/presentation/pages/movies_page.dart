@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_clean_architecture/features/movies/domain/entities/movie_entity.dart';
-import 'package:movies_clean_architecture/features/movies/presentation/bloc/bloc.dart';
+import 'package:movies_clean_architecture/features/movies/presentation/bloc/get_movies_bloc/bloc.dart';
+import 'package:movies_clean_architecture/features/movies/presentation/bloc/change_movies_view_bloc/bloc.dart';
 import 'package:movies_clean_architecture/features/movies/presentation/widgets/movie_item.dart';
 import 'package:movies_clean_architecture/core/constants/colors.dart';
 import 'package:movies_clean_architecture/features/movies/presentation/widgets/movie_image_item.dart';
-import 'package:movies_clean_architecture/core/constants/texts.dart';
+import '../../../../injection_container.dart';
+import 'package:movies_clean_architecture/features/movie_details/presentation/pages/movie_details_page.dart';
+import 'package:movies_clean_architecture/features/movie_details/presentation/bloc/bloc.dart' as MovieDetailsBloc;
 class MoviesPage extends StatefulWidget {
   @override
   _MoviesPageState createState() => _MoviesPageState();
@@ -39,14 +42,16 @@ class _MoviesPageState extends State<MoviesPage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: backgroundColor,
         onPressed: (){
-          setState(() {
-            isDetailedMoviesView = !isDetailedMoviesView;
-          });
+          BlocProvider.of<ChangeMoviesViewBloc>(context).add(ChangeMoviesViewEvent());
         },
-        child: Icon(
-          isDetailedMoviesView ? Icons.apps : Icons.art_track,
-          color: brightGreen,
-        ),
+        child: BlocBuilder<ChangeMoviesViewBloc,ChangeMoviesViewState>(
+          builder: (context,state) {
+            return Icon(
+              state is MoviesWithDescriptionState ? Icons.apps : Icons.art_track,
+              color: brightGreen
+            );
+          },
+        )
       ),
       body: BlocBuilder<MoviesBloc, MoviesState>(
           builder: (context, state) {
@@ -74,8 +79,14 @@ class _MoviesPageState extends State<MoviesPage> {
   }
 
   Widget MoviesList(List<Movie> movies,bool loadingMore) {
-    return isDetailedMoviesView ? 
-    MoviesScrollView(movies, loadingMore) : MoviesWrap(movies, loadingMore);
+    return BlocBuilder<ChangeMoviesViewBloc,ChangeMoviesViewState>(
+      builder: (context,state){
+        return state is MoviesWithDescriptionState ?
+        MoviesScrollView(movies, loadingMore)
+            :
+        MoviesWrap(movies, loadingMore);
+      },
+    );
   }
 
   Widget MoviesScrollView(List<Movie> movies,bool loadingMore) {
@@ -116,28 +127,45 @@ class _MoviesPageState extends State<MoviesPage> {
   
   Widget LoadingMovies() {
     return Center(
-      child: CircularProgressIndicator(),
+      child: CircularProgressIndicator(backgroundColor: brightGreen,),
     );
   }
 
   Widget MovieDetailsWidget(Movie movie) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.3,
-      width: MediaQuery.of(context).size.width * 0.5,
+
+    return GestureDetector(
+      onTap: () => Navigator.push(context, MaterialPageRoute(
+        builder: (context) => BlocProvider(
+          builder: (_) => sl<MovieDetailsBloc.MovieDetailsBloc>(),
+          child: MovieDetailsPage(movieId: movie.id,),
+        )
+      )),
       child: Container(
-        margin: EdgeInsets.all(4),
-        child: MovieItem(
-          movie: movie,
+        height: MediaQuery.of(context).size.height * 0.3,
+        width: MediaQuery.of(context).size.width * 0.5,
+        child: Container(
+          margin: EdgeInsets.all(4),
+          child: MovieItem(
+            movie: movie,
+          ),
         ),
       ),
     );
   }
 
   Widget MovieImageOnlyWidget(Movie movie) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.3,
-      width: MediaQuery.of(context).size.width * 0.32,
-      child: MovieImageItem(movie: movie,),
+    return GestureDetector(
+      onTap: () => Navigator.push(context, MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            builder: (_) => sl<MovieDetailsBloc.MovieDetailsBloc>(),
+            child: MovieDetailsPage(movieId: movie.id,),
+          )
+      )),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.3,
+        width: MediaQuery.of(context).size.width * 0.32,
+        child: MovieImageItem(movie: movie,),
+      ),
     );
   }
 }

@@ -6,7 +6,7 @@ import 'package:movies_clean_architecture/core/error/failures.dart';
 import 'package:movies_clean_architecture/core/util/input_converter.dart';
 import 'package:movies_clean_architecture/features/movies/domain/entities/movie_entity.dart';
 import 'package:movies_clean_architecture/features/movies/domain/usecases/get_movies_with_page_usecase.dart';
-import 'package:movies_clean_architecture/features/movies/presentation/bloc/bloc.dart';
+import 'package:movies_clean_architecture/features/movies/presentation/bloc/get_movies_bloc/bloc.dart';
 
 class MockGetMoviesWithPageUsecase extends Mock implements GetMoviesWithPageUsecase {}
 

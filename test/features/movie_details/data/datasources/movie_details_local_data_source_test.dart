@@ -43,7 +43,7 @@ void main(){
       }
     );
 
-    test('should retur cached movie details model',
+    test('should return cached movie details model',
       () async {
         setUpPreferencesGetCachedMovieDetails();
         final result = await movieDetailsLocalDataSource.getCachedMovieDetails(tMovieId);
