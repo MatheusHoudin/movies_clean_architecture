@@ -18,7 +18,7 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
   Stream<MovieDetailsState> mapEventToState(
     MovieDetailsEvent event,
   ) async* {
-    if( event is LoadMovieDetailsEvent ){
+    if( event is GetMovieDetailsEvent ){
       final movieDetailsOrFailure = await _getMovieDetailsUsecase(Params(movieId: event.movieId));
 
       yield* movieDetailsOrFailure.fold(

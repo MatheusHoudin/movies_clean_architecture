@@ -40,7 +40,7 @@ void main(){
   test(
     'should call the GetMovieDetailsUsecase when the event is LoadMovieDetailsEvent',
     () async {
-      movieDetailsBloc.add(LoadMovieDetailsEvent(movieId: tMovieId));
+      movieDetailsBloc.add(GetMovieDetailsEvent(movieId: tMovieId));
 
       await untilCalled(getMovieDetailsUsecase(any));
       verify(getMovieDetailsUsecase(Params(movieId: tMovieId)));
@@ -59,7 +59,7 @@ void main(){
       ];
 
       expectLater(movieDetailsBloc.cast(), emitsInOrder(expected));
-      movieDetailsBloc.add(LoadMovieDetailsEvent(movieId: tMovieId));
+      movieDetailsBloc.add(GetMovieDetailsEvent(movieId: tMovieId));
     }
   );
 
@@ -74,7 +74,7 @@ void main(){
         Error(message: SERVER_FAILURE)
       ];
       expectLater(movieDetailsBloc.cast(), emitsInOrder(expected));
-      movieDetailsBloc.add(LoadMovieDetailsEvent(movieId: tMovieId));
+      movieDetailsBloc.add(GetMovieDetailsEvent(movieId: tMovieId));
     }
   );
 
@@ -89,7 +89,7 @@ void main(){
         Error(message: CACHE_FAILURE)
       ];
       expectLater(movieDetailsBloc.cast(), emitsInOrder(expected));
-      movieDetailsBloc.add(LoadMovieDetailsEvent(movieId: tMovieId));
+      movieDetailsBloc.add(GetMovieDetailsEvent(movieId: tMovieId));
     }
   );
 
