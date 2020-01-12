@@ -7,14 +7,10 @@ class MoviePoster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(4)),
-        image: DecorationImage(
-          image: NetworkImage('$moviePosterUrl$imagePoster'),
-          fit: BoxFit.fill
-        )
-      ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      child: Image.network('$moviePosterUrl$imagePoster',fit: BoxFit.fill,),
     );
+
   }
 }

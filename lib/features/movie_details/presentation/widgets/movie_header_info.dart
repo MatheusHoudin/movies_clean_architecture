@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies_clean_architecture/core/constants/texts.dart';
 import 'movie_poster.dart';
+import 'movie_backdrop.dart';
 import 'package:movies_clean_architecture/features/movie_details/domain/entities/movie_details_entity.dart';
 class MovieHeaderInfo extends StatelessWidget {
   final MovieDetailsEntity movieDetailsEntity;
@@ -10,41 +11,83 @@ class MovieHeaderInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          Image.network('$moviePosterUrl${movieDetailsEntity.backdropPath}'),
-          Positioned(
-            bottom: 10,
-            left: 15,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.3,
+          Stack(
+            overflow: Overflow.visible,
+            children: <Widget>[
+              MovieBackdrop(movieBackdropPath: movieDetailsEntity.backdropPath,),
+              Positioned(
+                bottom: -MediaQuery.of(context).size.height * 0.2,
+                child: Container(
+                  padding: EdgeInsets.only(left: 10),
 
-                      child: MoviePoster(imagePoster: movieDetailsEntity.posterPath,),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 7,
-                    child: Container(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text('Movie Details')
-                        ],
-                      ),
-                    )
-                  )
-                ],
-              ),
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  child: MoviePoster(imagePoster: movieDetailsEntity.posterPath,),
+                ),
+              )
+            ],
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            padding: EdgeInsets.only(left: 10,top: 7),
+            child: Column(
+              children: <Widget>[
+                MovieTitle(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    VoteAverage(),
+                    ReleaseDate(),
+                  ],
+                )
+              ],
             ),
           )
         ],
+      )
+    );
+  }
+
+  Widget MovieTitle() {
+    return Text(
+      movieDetailsEntity.title,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        fontSize: 26,
+        fontWeight: FontWeight.bold
       ),
+    );
+  }
+
+  Widget VoteAverage() {
+    return Column(
+      children: <Widget>[
+        Text(
+          movieDetailsEntity.voteAverage.toString(),
+          style: TextStyle(
+            color: Colors.redAccent,
+            fontSize: 20,
+            fontWeight: FontWeight.bold
+          ),
+        ),
+        Text(
+          'Ratings',
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 16
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget ReleaseDate() {
+    return Text(
+      movieDetailsEntity.releaseDate
     );
   }
 }

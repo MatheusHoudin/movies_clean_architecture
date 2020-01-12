@@ -64,7 +64,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
   Widget LoadingMovieDetails() {
     return Center(
-      child: CircularProgressIndicator(backgroundColor: brightGreen,),
+      child: CircularProgressIndicator(),
     );
   }
 
