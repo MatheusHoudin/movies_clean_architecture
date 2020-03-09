@@ -3,7 +3,6 @@ import 'package:movies_clean_architecture/features/movie_details/data/models/gen
 import 'package:movies_clean_architecture/features/movie_details/data/models/belongs_to_collection_model.dart';
 import 'package:movies_clean_architecture/features/movie_details/data/models/production_company_model.dart';
 import 'package:movies_clean_architecture/features/movie_details/domain/entities/movie_details_entity.dart';
-import 'package:movies_clean_architecture/features/movie_details/data/models/movie_details_model.dart';
 class MovieDetailsModel extends MovieDetailsEntity {
 
   MovieDetailsModel({
@@ -34,9 +33,9 @@ class MovieDetailsModel extends MovieDetailsEntity {
       posterPath: json['poster_path'],
       releaseDate: json['release_date'],
       voteAverage: json['vote_average'],
-      belongsToCollection: BelongsToCollectionModel.fromJson(json['belongs_to_collection']),
-      genres: (json['genres'] as List).map((i) => GenreModel.fromJson(i)).toList(),
-      productionCompanies: (json['production_companies'] as List).map((i) => ProductionCompanyModel.fromJson(i)).toList()
+      belongsToCollection: json['belongs_to_collection'] != null ? BelongsToCollectionModel.fromJson(json['belongs_to_collection']) : null,
+      genres: json['genres'] != null ? (json['genres'] as List).map((i) => GenreModel.fromJson(i)).toList() : null,
+      productionCompanies: json['production_companies'] != null ? (json['production_companies'] as List).map((i) => ProductionCompanyModel.fromJson(i)).toList() : null
     );
   }
 
@@ -51,9 +50,9 @@ class MovieDetailsModel extends MovieDetailsEntity {
       'poster_path': this.posterPath,
       'release_date': this.releaseDate,
       'vote_average': this.voteAverage,
-      'belongs_to_collection': (this.belongsToCollection as BelongsToCollectionModel).toJson(),
-      'genres': this.genres.map((i) => (i as GenreModel).toJson()).toList(),
-      'production_companies': this.productionCompanies.map((i) => (i as ProductionCompanyModel).toJson()).toList(),
+      'belongs_to_collection': this.belongsToCollection != null ? (this.belongsToCollection as BelongsToCollectionModel).toJson() : null,
+      'genres': this.genres != null ? this.genres.map((i) => (i as GenreModel).toJson()).toList() : null,
+      'production_companies': this.productionCompanies != null ? this.productionCompanies.map((i) => (i as ProductionCompanyModel).toJson()).toList() : null,
     };
   }
 }

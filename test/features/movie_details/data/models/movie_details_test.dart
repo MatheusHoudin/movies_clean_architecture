@@ -50,6 +50,21 @@ void main() {
     ]
   );
 
+  final tMovieDetailsModelWithNullFields = MovieDetailsModel(
+    id: 1,
+    adult: true,
+    backdropPath: 'backdrop',
+    homepage: 'homepage',
+    title: 'title',
+    overview: 'overview',
+    posterPath: 'poster',
+    releaseDate: 'date',
+    voteAverage: 10.0,
+    belongsToCollection: null,
+    genres: null,
+    productionCompanies: null
+  );
+
   test(
     'should be an instance of MovieDetails entity',
     () async {
@@ -58,12 +73,22 @@ void main() {
   );
 
   test(
-    'should convert the json and return a proper MovieDetailsModel',
+    'should set to null the json null atributes',
     () async {
       final jsonMap = json.decode(fixture('movie_details.json'));
       final result = MovieDetailsModel.fromJson(jsonMap);
 
       expect(tMovieDetailsModel, result);
+    }
+  );
+
+  test(
+    'should convert the json and return a proper MovieDetailsModel',
+    () async {
+      final jsonMap = json.decode(fixture('movie_details_with_null_fields.json'));
+      final result = MovieDetailsModel.fromJson(jsonMap);
+
+      expect(tMovieDetailsModelWithNullFields, result);
     }
   );
 

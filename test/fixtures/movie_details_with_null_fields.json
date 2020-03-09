@@ -1,0 +1,14 @@
+{
+    "id": 1,
+    "adult": true,
+    "backdrop_path": "backdrop",
+    "homepage": "homepage",
+    "title": "title",
+    "overview": "overview",
+    "poster_path": "poster",
+    "release_date": "date",
+    "vote_average": 10.0,
+    "belongs_to_collection": null,
+    "genres": null,
+    "production_companies": null
+  }

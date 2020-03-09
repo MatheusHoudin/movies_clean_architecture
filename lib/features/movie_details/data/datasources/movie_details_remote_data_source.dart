@@ -15,6 +15,7 @@ class MovieDetailsRemoteDataSourceImpl implements MovieDetailsRemoteDataSource {
 
   @override
   Future<MovieDetailsModel> getMovieDetailsModel(int movieId) async {
+    print('Movie Id ${movieId}');
     final result = await client.get('${baseUrl}movie/$movieId?api_key=$apiKey');
     if(result.statusCode == 200) {
       return MovieDetailsModel.fromJson(json.decode(result.body));
@@ -22,5 +23,4 @@ class MovieDetailsRemoteDataSourceImpl implements MovieDetailsRemoteDataSource {
       throw ServerException();
     }
   }
-
 }

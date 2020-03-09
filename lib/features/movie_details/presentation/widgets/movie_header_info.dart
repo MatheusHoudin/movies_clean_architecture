@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_clean_architecture/core/constants/colors.dart';
 import 'package:movies_clean_architecture/core/constants/texts.dart';
 import 'movie_poster.dart';
 import 'movie_backdrop.dart';
@@ -30,20 +31,25 @@ class MovieHeaderInfo extends StatelessWidget {
               )
             ],
           ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            padding: EdgeInsets.only(left: 10,top: 7),
-            child: Column(
-              children: <Widget>[
-                MovieTitle(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    VoteAverage(),
-                    ReleaseDate(),
-                  ],
-                )
-              ],
+          Expanded(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.7,
+              padding: EdgeInsets.only(left: 10,top: 7),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  MovieTitle(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      VoteAverage(),
+                      ReleaseDate(),
+                      Adult(movieDetailsEntity.adult),
+                    ],
+                  )
+                ],
+              ),
             ),
           )
         ],
@@ -51,13 +57,32 @@ class MovieHeaderInfo extends StatelessWidget {
     );
   }
 
+  Widget Adult(bool isAdultMovie) {
+    return Container(
+      padding: EdgeInsets.only(top: 6,bottom: 6,left: 8,right: 8),
+      decoration: BoxDecoration(
+        color: isAdultMovie ? Colors.redAccent : brightGreen,
+        borderRadius: BorderRadius.circular(4)
+      ),
+      child: Text(
+        isAdultMovie ? '+18' : 'L',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.bold
+        ),
+      ),
+    );
+  }
+
   Widget MovieTitle() {
     return Text(
       movieDetailsEntity.title,
-      maxLines: 2,
+      maxLines: 3,
+      textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
-        fontSize: 26,
+        fontSize: 22,
         fontWeight: FontWeight.bold
       ),
     );
@@ -87,7 +112,11 @@ class MovieHeaderInfo extends StatelessWidget {
 
   Widget ReleaseDate() {
     return Text(
-      movieDetailsEntity.releaseDate
+      movieDetailsEntity.releaseDate,
+      style: TextStyle(
+        color: Colors.grey,
+        fontSize: 16
+      ),
     );
   }
 }
