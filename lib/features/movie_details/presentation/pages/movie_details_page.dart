@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_clean_architecture/features/movie_details/domain/entities/belongs_to_collection_entity.dart';
+import 'package:movies_clean_architecture/features/movie_details/domain/entities/production_company_entity.dart';
 import '../widgets/movie_header_info.dart';
 import '../widgets/movie_genre.dart';
 import '../widgets/movie_section_title.dart';
 import '../widgets/movie_collection.dart';
+import '../widgets/movie_company.dart';
 import 'package:movies_clean_architecture/features/movie_details/presentation/bloc/bloc.dart';
 class MovieDetailsPage extends StatefulWidget {
   final int movieId;
@@ -83,10 +85,16 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                       
                     ),
                   ),
+                  SizedBox(height: 10,),
                   state.movieDetailsEntity.belongsToCollection != null ?
                         CollectionSection(state.movieDetailsEntity.belongsToCollection)
                         :
-                        Container()
+                        Container(),
+                  SizedBox(height: 10,),
+                  state.movieDetailsEntity.productionCompanies != null ?
+                      CompaniesSection(state.movieDetailsEntity.productionCompanies,context)
+                      :
+                      Container()
                 ],
               ),
             );
@@ -103,7 +111,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        SizedBox(height: 10,),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: MovieSectionTitle(sectionTitle: 'Collection',)
@@ -118,6 +125,33 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
           ),
         )
       ],
+    );
+  }
+
+  Widget CompaniesSection(List<ProductionCompany> companies,BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      height: MediaQuery.of(context).size.height * 0.3,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: MovieSectionTitle(sectionTitle: 'Production Companies',),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.15,
+            child: ListView.builder(
+              itemCount: companies.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context,i)
+              => Container(
+                margin: EdgeInsets.only(right: 16),
+                child: MovieCompany(productionCompany: companies[i],),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 

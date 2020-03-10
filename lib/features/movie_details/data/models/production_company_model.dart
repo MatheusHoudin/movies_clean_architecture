@@ -26,4 +26,14 @@ class ProductionCompanyModel extends ProductionCompany {
       'origin_country': this.originCountry
     };
   }
+
+  @override
+  String toString() {
+    return {
+      'id': this.id,
+      'name': this.name,
+      'logo_path': this.logoPath,
+      'origin_country': this.originCountry
+    }.toString();
+  }
 }

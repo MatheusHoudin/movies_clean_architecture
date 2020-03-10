@@ -43,20 +43,7 @@ class _MainPageState extends State<MainPage> {
             )
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          backgroundColor: backgroundColor,
-          onTap: (index){
-            setState(() {
-              selectedIndex = index;
-              pageController.animateToPage(index, duration: Duration(milliseconds: 400),curve: Curves.easeInOut);
-            });
-          },
-          items: [
-            BottomNavigationItem('Movies', Icons.movie),
-            BottomNavigationItem('TV Shows', Icons.tv),
-          ],
-        ),
+
       ),
     );
   }

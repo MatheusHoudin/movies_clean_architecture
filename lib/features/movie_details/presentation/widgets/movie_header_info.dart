@@ -25,7 +25,7 @@ class MovieHeaderInfo extends StatelessWidget {
                   padding: EdgeInsets.only(left: 10),
 
                   width: MediaQuery.of(context).size.width * 0.3,
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.25,
                   child: MoviePoster(imagePoster: movieDetailsEntity.posterPath,),
                 ),
               )
@@ -36,7 +36,7 @@ class MovieHeaderInfo extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.7,
               padding: EdgeInsets.only(left: 10,top: 7),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   MovieTitle(),
                   Row(

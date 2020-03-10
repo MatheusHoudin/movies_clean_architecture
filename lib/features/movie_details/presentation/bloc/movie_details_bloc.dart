@@ -27,6 +27,7 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
           yield Error(message: errorMessage);
         },
         (movieDetails) async* {
+          print(movieDetails.productionCompanies);
           yield Loaded(movieDetailsEntity: movieDetails);
         }
       );
