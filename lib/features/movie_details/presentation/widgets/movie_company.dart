@@ -11,26 +11,64 @@ class MovieCompany extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(2),
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 80,
-            width: 80,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage('$moviePosterUrl${productionCompany.logoPath}'),
-              )
-            ),
+      child: Padding(
+        padding: EdgeInsets.all(4),
+        child: productionCompany.logoPath != null ? CompanyDataWithImage() : CompanyDataWithoutImage(),
+      ),
+    );
+  }
+
+  Widget CompanyDataWithoutImage(){
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: Center(
+            child: CompanyName(),
           ),
-          Center(
-            child: Text(
-              productionCompany.name,
-              style: TextStyle(
-                color: brightGreen
-              ),
-            ),
-          )
-        ],
+        )
+      ],
+    );
+  }
+
+  Widget CompanyDataWithImage(){
+    return Column(
+      children: <Widget>[
+        Expanded(flex: 3,child: CompanyImage()),
+        SizedBox(height: 4,),
+        Expanded(flex: 1,child: CompanyName())
+      ],
+    );
+  }
+
+  Widget CompanyImage() {
+    return Card(
+      shape: CircleBorder(),
+      color: brightGreen,
+      child: Container(
+        height: 30,
+        width: 30,
+        margin: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+
+            image: DecorationImage(
+              image: NetworkImage('$moviePosterUrl${productionCompany.logoPath}'),
+            )
+        ),
+      ),
+    );
+  }
+
+  Widget CompanyName(){
+    return Center(
+      child: Container(
+        child: Text(
+          productionCompany.name,
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold
+          ),
+        ),
       ),
     );
   }

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class MovieSectionTitle extends StatelessWidget {
   final String sectionTitle;
+  final Color textColor;
 
-  MovieSectionTitle({this.sectionTitle});
+  MovieSectionTitle({this.sectionTitle,this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,8 @@ class MovieSectionTitle extends StatelessWidget {
       this.sectionTitle,
       style: TextStyle(
         fontWeight: FontWeight.bold,
-        fontSize: 22
+        color: textColor,
+        fontSize: 24
       )
     );
   }

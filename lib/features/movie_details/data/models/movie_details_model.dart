@@ -41,7 +41,7 @@ class MovieDetailsModel extends MovieDetailsEntity {
 
   Map<String,dynamic> toJson() {
     return {
-      'id': this.id,
+      'id': '${this.id}',
       'adult': this.adult,
       'backdrop_path': this.backdropPath,
       'homepage': this.homepage,

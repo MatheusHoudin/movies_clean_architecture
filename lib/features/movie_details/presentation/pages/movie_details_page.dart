@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_clean_architecture/core/constants/colors.dart';
 import 'package:movies_clean_architecture/features/movie_details/domain/entities/belongs_to_collection_entity.dart';
 import 'package:movies_clean_architecture/features/movie_details/domain/entities/production_company_entity.dart';
 import '../widgets/movie_header_info.dart';
@@ -87,9 +88,9 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   ),
                   SizedBox(height: 10,),
                   state.movieDetailsEntity.belongsToCollection != null ?
-                        CollectionSection(state.movieDetailsEntity.belongsToCollection)
-                        :
-                        Container(),
+                      CollectionSection(state.movieDetailsEntity.belongsToCollection)
+                      :
+                      Container(),
                   SizedBox(height: 10,),
                   state.movieDetailsEntity.productionCompanies != null ?
                       CompaniesSection(state.movieDetailsEntity.productionCompanies,context)
@@ -109,16 +110,13 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
   Widget CollectionSection(BelongsToCollection belongsToCollection) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: MovieSectionTitle(sectionTitle: 'Collection',)
-        ),
         Container(
           alignment: Alignment.centerLeft,
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(horizontal: 10),
+          color: Colors.red,
+
           height: MediaQuery.of(context).size.height * 0.3,
           child: MovieCollection(
             belongsToCollection: belongsToCollection,
@@ -130,27 +128,37 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
   Widget CompaniesSection(List<ProductionCompany> companies,BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      height: MediaQuery.of(context).size.height * 0.3,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            child: MovieSectionTitle(sectionTitle: 'Production Companies',),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.15,
-            child: ListView.builder(
-              itemCount: companies.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context,i)
-              => Container(
-                margin: EdgeInsets.only(right: 16),
-                child: MovieCompany(productionCompany: companies[i],),
+      padding: EdgeInsets.symmetric(horizontal: 4),
+      height: MediaQuery.of(context).size.height * 0.25,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(36),topRight: Radius.circular(36))
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(top: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              child: Center(
+                child: MovieSectionTitle(sectionTitle: 'Production Companies',textColor: Colors.white,),
               ),
             ),
-          )
-        ],
+            SizedBox(height: 10,),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.12,
+              child: ListView.builder(
+                itemCount: companies.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context,i)
+                => Container(
+                  margin: EdgeInsets.only(right: 16),
+                  child: MovieCompany(productionCompany: companies[i],),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
